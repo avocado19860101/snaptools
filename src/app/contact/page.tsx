@@ -8,7 +8,7 @@ export default function Contact() {
       <p>Have a question, suggestion, or found a bug? We&apos;d love to hear from you. Reach out using any of the methods below.</p>
 
       <h2>Email</h2>
-      <p>Send us an email at: <strong>hello@snaptools.dev</strong></p>
+      <p>Send us an email at: <strong>avocado19860101@gmail.com</strong></p>
       <p>We typically respond within 1-2 business days.</p>
 
       <h2>Feedback & Suggestions</h2>
