@@ -15,6 +15,19 @@ const tools = [
   { name: 'Password Generator', desc: 'Generate strong, secure passwords with custom options.', href: '/password-generator', icon: '🔐' },
   { name: 'Color Picker', desc: 'Pick colors and convert between HEX, RGB, and HSL.', href: '/color-picker', icon: '🎨' },
   { name: 'Text Case Converter', desc: 'Convert text to UPPERCASE, lowercase, Title Case, and more.', href: '/text-case-converter', icon: '🔤' },
+  { name: 'Unit Converter', desc: 'Convert between length, weight, temperature, volume, and more.', href: '/unit-converter', icon: '📐' },
+  { name: 'Percentage Calculator', desc: 'Calculate percentages, percentage of a number, and percentage change.', href: '/percentage-calculator', icon: '💯' },
+  { name: 'Base64 Encoder/Decoder', desc: 'Encode text to Base64 or decode Base64 strings with Unicode support.', href: '/base64-encoder-decoder', icon: '🔣' },
+  { name: 'URL Encoder/Decoder', desc: 'Encode or decode URL strings with special characters.', href: '/url-encoder-decoder', icon: '🔗' },
+  { name: 'Timestamp Converter', desc: 'Convert Unix timestamps to dates and dates to timestamps.', href: '/timestamp-converter', icon: '🕐' },
+  { name: 'Lorem Ipsum Generator', desc: 'Generate placeholder text for designs, mockups, and prototypes.', href: '/lorem-ipsum-generator', icon: '📄' },
+  { name: 'Emoji Picker', desc: 'Browse, search, and copy emojis instantly. Click to copy.', href: '/emoji-picker', icon: '😀' },
+  { name: 'Favicon Generator', desc: 'Generate favicons in all sizes from any image. Client-side.', href: '/favicon-generator', icon: '⭐' },
+  { name: 'Aspect Ratio Calculator', desc: 'Calculate and convert aspect ratios. Lock and resize proportionally.', href: '/aspect-ratio-calculator', icon: '🖥️' },
+  { name: 'CSS Gradient Generator', desc: 'Create beautiful CSS gradients visually with live preview.', href: '/css-gradient-generator', icon: '🌈' },
+  { name: 'Image Format Converter', desc: 'Convert images between PNG, JPG, and WebP formats instantly.', href: '/image-format-converter', icon: '🔄' },
+  { name: 'PDF Merge', desc: 'Merge multiple PDF files into one document. Reorder and combine.', href: '/pdf-merge', icon: '📑' },
+  { name: 'Screenshot Beautifier', desc: 'Add gradient backgrounds, rounded corners, and shadows to screenshots.', href: '/screenshot-beautifier', icon: '✨' },
 ];
 
 const features = [
