@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import FAQ from '@/components/FAQ';
-import AdPlaceholder from '@/components/AdPlaceholder';
+import { ToolLayout, Card, CopyButton } from '@/components/ui';
 
 const faqItems = [
   { q: 'What text cases are available?', a: 'We support UPPERCASE, lowercase, Title Case, Sentence case, camelCase, PascalCase, snake_case, kebab-case, and CONSTANT_CASE.' },
@@ -33,62 +33,54 @@ const conversions = [
 
 export default function TextCaseConverter() {
   const [text, setText] = useState('');
-  const [copied, setCopied] = useState('');
-
-  const copy = (val: string, name: string) => {
-    navigator.clipboard.writeText(val);
-    setCopied(name);
-    setTimeout(() => setCopied(''), 1500);
-  };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold text-gray-900 mb-4">Text Case Converter</h1>
-      <p className="text-gray-600 mb-2">Quickly convert text between different cases: UPPERCASE, lowercase, Title Case, camelCase, snake_case, and more. Perfect for writers who accidentally typed in caps lock, developers formatting variable names, or anyone who needs text in a specific format.</p>
-      <p className="text-gray-600 mb-8">Type or paste your text below and see all conversions instantly. Click any result to copy it to your clipboard. Everything runs locally in your browser.</p>
-
-      <AdPlaceholder slot="above-tool" />
-
-      <div className="bg-white border border-gray-200 rounded-xl p-6 mb-8">
-        <h2 className="text-xl font-semibold mb-4">Enter Your Text</h2>
-        <textarea value={text} onChange={e => setText(e.target.value)} placeholder="Type or paste your text here..." className="w-full border border-gray-300 rounded-lg px-4 py-3 mb-6 h-32 resize-y" />
+    <ToolLayout
+      title="Text Case Converter"
+      description={[
+        'Quickly convert text between different cases: UPPERCASE, lowercase, Title Case, camelCase, snake_case, and more.',
+        'Type or paste your text below and see all conversions instantly. Everything runs locally in your browser.',
+      ]}
+      howTo={{
+        steps: [
+          'Type or paste your text into the text area.',
+          'All case conversions appear automatically below your input.',
+          'Click the copy button on any conversion to copy the result.',
+          'Paste wherever you need it!',
+        ],
+      }}
+      faq={<FAQ items={faqItems} />}
+      jsonLd={{
+        '@context': 'https://schema.org', '@type': 'WebApplication', name: 'Text Case Converter', url: 'https://snaptools.dev/text-case-converter',
+        description: 'Free online text case converter. Convert between uppercase, lowercase, camelCase, and more.',
+        applicationCategory: 'UtilityApplication', operatingSystem: 'Any', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' }
+      }}
+    >
+      <Card padding="lg">
+        <h2 className="text-xl font-semibold text-gray-900 mb-5">Enter Your Text</h2>
+        <textarea
+          value={text}
+          onChange={e => setText(e.target.value)}
+          placeholder="Type or paste your text here..."
+          className="w-full rounded-xl backdrop-blur-lg bg-white/50 border border-white/40 px-4 py-3 mb-6 h-32 resize-y text-gray-900 placeholder-gray-400 focus:bg-white/70 focus:border-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500/20 transition-all"
+        />
         {text.trim() && (
           <div className="space-y-3">
             {conversions.map(c => {
               const val = c.fn(text);
               return (
-                <button key={c.name} onClick={() => copy(val, c.name)} className="w-full text-left bg-gray-50 hover:bg-blue-50 rounded-lg p-4 flex justify-between items-start transition-colors">
-                  <div>
-                    <div className="text-sm text-gray-500 mb-1">{c.name}</div>
+                <div key={c.name} className="glass-subtle rounded-xl p-4 flex justify-between items-start">
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm text-gray-400 mb-1">{c.name}</div>
                     <div className="font-mono text-gray-900 break-all">{val}</div>
                   </div>
-                  <span className="text-sm text-gray-400 whitespace-nowrap ml-4">{copied === c.name ? '✓ Copied!' : 'Copy'}</span>
-                </button>
+                  <CopyButton text={val} className="ml-4 shrink-0" />
+                </div>
               );
             })}
           </div>
         )}
-      </div>
-
-      <AdPlaceholder slot="between-content" />
-
-      <section className="mb-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">How to Use the Text Case Converter</h2>
-        <ol className="list-decimal list-inside space-y-2 text-gray-600">
-          <li>Type or paste your text into the text area above.</li>
-          <li>All case conversions appear automatically below your input.</li>
-          <li>Click any conversion to copy the result to your clipboard.</li>
-          <li>Paste wherever you need it!</li>
-        </ol>
-      </section>
-
-      <FAQ items={faqItems} />
-
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        '@context': 'https://schema.org', '@type': 'WebApplication', name: 'Text Case Converter', url: 'https://snaptools.dev/text-case-converter',
-        description: 'Free online text case converter. Convert between uppercase, lowercase, camelCase, and more.',
-        applicationCategory: 'UtilityApplication', operatingSystem: 'Any', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' }
-      })}} />
-    </div>
+      </Card>
+    </ToolLayout>
   );
 }

@@ -1,7 +1,7 @@
 'use client';
 import { useState, useRef } from 'react';
 import FAQ from '@/components/FAQ';
-import AdPlaceholder from '@/components/AdPlaceholder';
+import { ToolLayout, Card, Button, Input, FileDropzone } from '@/components/ui';
 
 const faqItems = [
   { q: 'Is my image uploaded to a server?', a: 'No. All resizing happens directly in your browser using the Canvas API. Your image never leaves your device.' },
@@ -21,9 +21,7 @@ export default function ImageResizer() {
   const [result, setResult] = useState<string | null>(null);
   const imgRef = useRef<HTMLImageElement | null>(null);
 
-  const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  const handleFile = (file: File) => {
     const reader = new FileReader();
     reader.onload = (ev) => {
       const src = ev.target?.result as string;
@@ -56,64 +54,66 @@ export default function ImageResizer() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold text-gray-900 mb-4">Image Resizer</h1>
-      <p className="text-gray-600 mb-2">Resize any image to your desired dimensions instantly and for free. Simply upload your image, set the width and height, and download the resized version. Perfect for social media posts, profile pictures, website images, or email attachments.</p>
-      <p className="text-gray-600 mb-8">Our image resizer works entirely in your browser using the HTML5 Canvas API. Your images are never uploaded to any server, ensuring complete privacy and lightning-fast processing.</p>
-
-      <AdPlaceholder slot="above-tool" />
-
-      <div className="bg-white border border-gray-200 rounded-xl p-6 mb-8">
-        <h2 className="text-xl font-semibold mb-4">Upload & Resize</h2>
-        <input type="file" accept="image/*" onChange={handleFile} className="mb-4 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-50 file:text-blue-700 file:font-medium hover:file:bg-blue-100" />
-        {image && (
-          <>
-            <div className="mb-4 text-sm text-gray-500">Original: {origW} × {origH}px</div>
-            <div className="flex flex-wrap gap-4 items-end mb-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Width (px)</label>
-                <input type="number" value={width} onChange={e => updateWidth(+e.target.value)} className="border border-gray-300 rounded-lg px-3 py-2 w-32" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Height (px)</label>
-                <input type="number" value={height} onChange={e => updateHeight(+e.target.value)} className="border border-gray-300 rounded-lg px-3 py-2 w-32" />
-              </div>
-              <label className="flex items-center gap-2 text-sm text-gray-600">
-                <input type="checkbox" checked={lock} onChange={e => setLock(e.target.checked)} className="rounded" /> Lock aspect ratio
-              </label>
-            </div>
-            <button onClick={resize} className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-lg transition-colors">Resize Image</button>
-          </>
-        )}
-        {result && (
-          <div className="mt-6">
-            <p className="text-sm text-gray-500 mb-2">Resized to {width} × {height}px</p>
-            <img src={result} alt="Resized" className="max-w-full rounded border mb-4" />
-            <a href={result} download="resized-image.png" className="inline-block bg-green-600 hover:bg-green-700 text-white font-medium px-6 py-3 rounded-lg transition-colors">Download Resized Image</a>
-          </div>
-        )}
-      </div>
-
-      <AdPlaceholder slot="between-content" />
-
-      <section className="mb-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">How to Use the Image Resizer</h2>
-        <ol className="list-decimal list-inside space-y-2 text-gray-600">
-          <li>Click &quot;Choose File&quot; to upload your image (JPG, PNG, GIF, WebP, or BMP).</li>
-          <li>Enter your desired width and height in pixels. Toggle &quot;Lock aspect ratio&quot; to maintain proportions.</li>
-          <li>Click &quot;Resize Image&quot; to process your image instantly in your browser.</li>
-          <li>Preview the result and click &quot;Download Resized Image&quot; to save it.</li>
-        </ol>
-      </section>
-
-      <FAQ items={faqItems} />
-
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+    <ToolLayout
+      title="Image Resizer"
+      description={[
+        'Resize any image to your desired dimensions instantly and for free. Simply upload your image, set the width and height, and download the resized version.',
+        'Our image resizer works entirely in your browser using the HTML5 Canvas API. Your images are never uploaded to any server, ensuring complete privacy and lightning-fast processing.',
+      ]}
+      howTo={{
+        steps: [
+          'Drop your image or click to upload (JPG, PNG, GIF, WebP, or BMP).',
+          'Enter your desired width and height in pixels. Toggle "Lock aspect ratio" to maintain proportions.',
+          'Click "Resize Image" to process your image instantly in your browser.',
+          'Preview the result and click "Download Resized Image" to save it.',
+        ],
+      }}
+      faq={<FAQ items={faqItems} />}
+      jsonLd={{
         '@context': 'https://schema.org', '@type': 'WebApplication', name: 'Image Resizer', url: 'https://snaptools.dev/image-resizer',
         description: 'Free online image resizer. Resize images to any dimension instantly in your browser.',
         applicationCategory: 'UtilityApplication', operatingSystem: 'Any', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
         mainEntity: { '@type': 'FAQPage', mainEntity: faqItems.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }
-      })}} />
-    </div>
+      }}
+    >
+      <Card padding="lg">
+        <h2 className="text-xl font-semibold text-gray-900 mb-5">Upload & Resize</h2>
+
+        {!image && (
+          <FileDropzone accept="image/*" onFile={handleFile} label="Drop your image here" sublabel="Supports JPG, PNG, GIF, WebP, BMP" />
+        )}
+
+        {image && (
+          <>
+            <div className="mb-4 text-sm text-gray-500">Original: {origW} × {origH}px</div>
+            <div className="flex flex-wrap gap-4 items-end mb-5">
+              <div className="w-32">
+                <Input label="Width (px)" type="number" value={width} onChange={e => updateWidth(+e.target.value)} />
+              </div>
+              <div className="w-32">
+                <Input label="Height (px)" type="number" value={height} onChange={e => updateHeight(+e.target.value)} />
+              </div>
+              <label className="flex items-center gap-2 text-sm text-gray-600 pb-2">
+                <input type="checkbox" checked={lock} onChange={e => setLock(e.target.checked)} className="rounded" /> Lock aspect ratio
+              </label>
+            </div>
+            <div className="flex gap-3">
+              <Button onClick={resize} size="lg">Resize Image</Button>
+              <Button variant="ghost" size="lg" onClick={() => { setImage(null); setResult(null); }}>Change Image</Button>
+            </div>
+          </>
+        )}
+
+        {result && (
+          <div className="mt-6 pt-6 border-t border-white/30">
+            <p className="text-sm text-gray-500 mb-3">Resized to {width} × {height}px</p>
+            <img src={result} alt="Resized" className="max-w-full rounded-xl border border-white/30 mb-4 shadow-md" />
+            <a href={result} download="resized-image.png">
+              <Button variant="success" size="lg">Download Resized Image</Button>
+            </a>
+          </div>
+        )}
+      </Card>
+    </ToolLayout>
   );
 }

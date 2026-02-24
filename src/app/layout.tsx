@@ -18,9 +18,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-white text-gray-900 min-h-screen flex flex-col`}>
+      <body className={`${inter.className} text-gray-900 min-h-screen flex flex-col`}>
+        <div className="bg-blobs" aria-hidden="true" />
         <Header />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 relative">{children}</main>
         <Footer />
         <CookieConsent />
       </body>

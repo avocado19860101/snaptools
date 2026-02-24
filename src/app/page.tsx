@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { Section, Card } from '@/components/ui';
 
 export const metadata: Metadata = {
   title: 'SnapTools - Free Online Tools for Everyday Tasks',
@@ -16,38 +17,54 @@ const tools = [
   { name: 'Text Case Converter', desc: 'Convert text to UPPERCASE, lowercase, Title Case, and more.', href: '/text-case-converter', icon: '🔤' },
 ];
 
+const features = [
+  { icon: '🔒', title: '100% Private', desc: 'Your files never leave your device. Everything is processed locally in your browser.' },
+  { icon: '⚡', title: 'Lightning Fast', desc: 'No waiting for server uploads. Tools work instantly on your device.' },
+  { icon: '💰', title: 'Completely Free', desc: 'No sign-ups, no subscriptions, no hidden fees. Free forever.' },
+];
+
 export default function Home() {
   return (
     <>
-      <section className="bg-gradient-to-br from-blue-50 to-white py-20">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">Free Online Tools for <span className="text-blue-600">Everyday Tasks</span></h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-8">Resize images, generate QR codes, create secure passwords, and more. All tools run directly in your browser — no uploads, no sign-ups, completely free.</p>
+      <Section className="py-20 sm:py-28">
+        <div className="text-center">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+            Free Online Tools for{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-violet-500">Everyday Tasks</span>
+          </h1>
+          <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto mb-8 leading-relaxed">
+            Resize images, generate QR codes, create secure passwords, and more. All tools run directly in your browser — no uploads, no sign-ups, completely free.
+          </p>
         </div>
-      </section>
-      {/* <AdPlaceholder slot="below-hero" /> */}
-      <section className="max-w-7xl mx-auto px-4 py-16">
+      </Section>
+
+      <Section className="py-12">
         <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">All Tools</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {tools.map(t => (
-            <Link key={t.href} href={t.href} className="group block p-6 bg-white border border-gray-200 rounded-xl hover:border-blue-300 hover:shadow-lg transition-all">
-              <div className="text-4xl mb-4">{t.icon}</div>
-              <h3 className="text-xl font-semibold text-gray-900 group-hover:text-blue-600 mb-2">{t.name}</h3>
-              <p className="text-gray-600">{t.desc}</p>
+            <Link key={t.href} href={t.href} className="group block">
+              <Card hover padding="md">
+                <div className="text-4xl mb-4">{t.icon}</div>
+                <h3 className="text-xl font-semibold text-gray-900 group-hover:text-primary-600 mb-2 transition-colors">{t.name}</h3>
+                <p className="text-gray-500">{t.desc}</p>
+              </Card>
             </Link>
           ))}
         </div>
-      </section>
-      <section className="bg-gray-50 py-16">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8">Why SnapTools?</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div><div className="text-3xl mb-3">🔒</div><h3 className="font-semibold text-lg mb-2">100% Private</h3><p className="text-gray-600">Your files never leave your device. Everything is processed locally in your browser.</p></div>
-            <div><div className="text-3xl mb-3">⚡</div><h3 className="font-semibold text-lg mb-2">Lightning Fast</h3><p className="text-gray-600">No waiting for server uploads. Tools work instantly on your device.</p></div>
-            <div><div className="text-3xl mb-3">💰</div><h3 className="font-semibold text-lg mb-2">Completely Free</h3><p className="text-gray-600">No sign-ups, no subscriptions, no hidden fees. Free forever.</p></div>
-          </div>
+      </Section>
+
+      <Section className="py-16">
+        <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">Why SnapTools?</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {features.map(f => (
+            <Card key={f.title} padding="lg" className="text-center">
+              <div className="text-3xl mb-4">{f.icon}</div>
+              <h3 className="font-semibold text-lg mb-2 text-gray-900">{f.title}</h3>
+              <p className="text-gray-500 leading-relaxed">{f.desc}</p>
+            </Card>
+          ))}
         </div>
-      </section>
+      </Section>
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         '@context': 'https://schema.org',

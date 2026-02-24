@@ -10,12 +10,18 @@ export default function FAQ({ items }: { items: FAQItem[] }) {
       <h2 className="text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
       <div className="space-y-3">
         {items.map((item, i) => (
-          <div key={i} className="border border-gray-200 rounded-lg">
-            <button onClick={() => setOpenIdx(openIdx === i ? null : i)} className="w-full text-left px-5 py-4 flex justify-between items-center">
+          <div key={i} className="glass rounded-2xl overflow-hidden">
+            <button
+              onClick={() => setOpenIdx(openIdx === i ? null : i)}
+              className="w-full text-left px-5 py-4 flex justify-between items-center hover:bg-white/40 transition-colors"
+              aria-expanded={openIdx === i}
+            >
               <span className="font-medium text-gray-900">{item.q}</span>
-              <span className="text-gray-400 text-xl">{openIdx === i ? '−' : '+'}</span>
+              <span className={`text-gray-400 text-xl transition-transform duration-200 ${openIdx === i ? 'rotate-45' : ''}`}>+</span>
             </button>
-            {openIdx === i && <div className="px-5 pb-4 text-gray-600">{item.a}</div>}
+            {openIdx === i && (
+              <div className="px-5 pb-4 text-gray-600 leading-relaxed">{item.a}</div>
+            )}
           </div>
         ))}
       </div>

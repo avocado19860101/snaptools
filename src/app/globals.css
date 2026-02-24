@@ -1,1 +1,84 @@
 @import "tailwindcss";
+
+@theme {
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #1e3a8a;
+
+  --color-success-light: #dcfce7;
+  --color-success: #22c55e;
+  --color-success-dark: #15803d;
+
+  --color-warning-light: #fef9c3;
+  --color-warning: #eab308;
+  --color-warning-dark: #a16207;
+
+  --color-error-light: #fee2e2;
+  --color-error: #ef4444;
+  --color-error-dark: #b91c1c;
+}
+
+/* Glassmorphism background blobs */
+.bg-blobs {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background: linear-gradient(135deg, #e0e7ff 0%, #f0e6ff 25%, #fce7f3 50%, #e0f2fe 75%, #ede9fe 100%);
+}
+
+.bg-blobs::before,
+.bg-blobs::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.5;
+  animation: float 20s ease-in-out infinite;
+}
+
+.bg-blobs::before {
+  width: 600px;
+  height: 600px;
+  background: linear-gradient(135deg, #93c5fd, #c4b5fd);
+  top: -10%;
+  left: -5%;
+}
+
+.bg-blobs::after {
+  width: 500px;
+  height: 500px;
+  background: linear-gradient(135deg, #f9a8d4, #a78bfa);
+  bottom: -10%;
+  right: -5%;
+  animation-delay: -10s;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -30px) scale(1.05); }
+  66% { transform: translate(-20px, 20px) scale(0.95); }
+}
+
+/* Glassmorphism utilities */
+@layer utilities {
+  .glass {
+    @apply backdrop-blur-xl bg-white/70 border border-white/30 shadow-lg;
+  }
+  .glass-strong {
+    @apply backdrop-blur-2xl bg-white/80 border border-white/40 shadow-xl;
+  }
+  .glass-subtle {
+    @apply backdrop-blur-lg bg-white/50 border border-white/20 shadow-md;
+  }
+  .focus-ring {
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2;
+  }
+}
