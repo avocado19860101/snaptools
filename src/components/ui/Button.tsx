@@ -9,11 +9,11 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantClasses: Record<Variant, string> = {
-  primary: 'bg-primary-600 hover:bg-primary-700 text-white shadow-md hover:shadow-lg',
-  secondary: 'backdrop-blur-lg bg-white/60 hover:bg-white/80 text-gray-700 border border-white/40 shadow-sm',
-  ghost: 'bg-transparent hover:bg-white/40 text-gray-700',
-  success: 'bg-success-dark hover:bg-green-800 text-white shadow-md hover:shadow-lg',
-  danger: 'bg-error hover:bg-red-600 text-white shadow-md',
+  primary: 'glass-btn-primary text-white',
+  secondary: 'glass-btn-secondary text-gray-700',
+  ghost: 'glass-btn-ghost text-gray-700',
+  success: 'glass-btn-success text-white',
+  danger: 'glass-btn-danger text-white',
 };
 
 const sizeClasses: Record<Size, string> = {
