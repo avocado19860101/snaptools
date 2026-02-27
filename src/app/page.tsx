@@ -28,6 +28,19 @@ const tools = [
   { name: 'Image Format Converter', desc: 'Convert images between PNG, JPG, and WebP formats instantly.', href: '/image-format-converter', icon: '🔄' },
   { name: 'PDF Merge', desc: 'Merge multiple PDF files into one document. Reorder and combine.', href: '/pdf-merge', icon: '📑' },
   { name: 'Screenshot Beautifier', desc: 'Add gradient backgrounds, rounded corners, and shadows to screenshots.', href: '/screenshot-beautifier', icon: '✨' },
+  { name: 'Image Crop Tool', desc: 'Crop images with preset aspect ratios. Drag to select area.', href: '/image-crop', icon: '✂️' },
+  { name: 'PDF to JPG Converter', desc: 'Convert PDF pages to high-quality JPG images instantly.', href: '/pdf-to-jpg', icon: '📄' },
+  { name: 'JSON Formatter', desc: 'Format, validate, and beautify JSON with syntax highlighting.', href: '/json-formatter', icon: '{ }' },
+  { name: 'Morse Code Translator', desc: 'Translate text to Morse code and back with audio playback.', href: '/morse-code-translator', icon: '📡' },
+  { name: 'Age Calculator', desc: 'Calculate your exact age, total days lived, and next birthday.', href: '/age-calculator', icon: '🎂' },
+  { name: 'Binary / Hex Converter', desc: 'Convert numbers between Decimal, Binary, Octal, and Hexadecimal.', href: '/binary-hex-converter', icon: '🔢' },
+  { name: 'Online Notepad', desc: 'Distraction-free notepad with auto-save, word count, and dark mode.', href: '/online-notepad', icon: '📓' },
+  { name: 'Text to Binary', desc: 'Convert text to binary and binary to text with Unicode support.', href: '/text-to-binary', icon: '💻' },
+  { name: 'RGB to HEX Converter', desc: 'Convert colors between RGB, HEX, and HSL with live preview.', href: '/rgb-to-hex', icon: '🎨' },
+  { name: 'Compress Image to Size', desc: 'Compress images to a specific file size target. All client-side.', href: '/compress-image-to-size', icon: '🗜️' },
+  { name: 'Video to GIF Converter', desc: 'Convert video clips to animated GIFs entirely in your browser.', href: '/video-to-gif', icon: '🎬' },
+  { name: 'Credit Card Validator', desc: 'Validate credit card numbers with the Luhn algorithm. Detect card type.', href: '/credit-card-validator', icon: '💳' },
+  { name: 'Image Background Remover', desc: 'Remove solid-color backgrounds from images with color-key removal.', href: '/background-remover', icon: '🖼️' },
 ];
 
 const features = [
