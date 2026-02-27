@@ -51,6 +51,13 @@ const tools = [
   { name: 'Invoice Generator', desc: 'Create professional invoices and download as PDF. All client-side.', href: '/invoice-generator', icon: '🧾' },
   { name: 'Pomodoro Timer', desc: 'Stay focused with the Pomodoro Technique. Customizable timer.', href: '/pomodoro-timer', icon: '🍅' },
   { name: 'Random Number Generator', desc: 'Generate random numbers, roll dice, flip coins, and more.', href: '/random-number-generator', icon: '🎲' },
+  { name: 'Stopwatch', desc: 'Precise stopwatch with lap times, split tracking, and CSV export.', href: '/stopwatch', icon: '⏱️' },
+  { name: 'Text Repeater', desc: 'Repeat any text multiple times with custom separators. Great for social media.', href: '/text-repeater', icon: '🔁' },
+  { name: 'IP Address Lookup', desc: 'Find your public IP address, location, timezone, and ISP instantly.', href: '/ip-address-lookup', icon: '🌐' },
+  { name: 'Screen Resolution Checker', desc: 'Check your screen resolution, viewport size, pixel ratio, and more.', href: '/screen-resolution', icon: '🖥️' },
+  { name: 'Regex Tester', desc: 'Test regular expressions with real-time highlighting and match details.', href: '/regex-tester', icon: '🔍' },
+  { name: 'SVG to PNG Converter', desc: 'Convert SVG files to PNG with custom dimensions, scale, and background.', href: '/svg-to-png', icon: '🖼️' },
+  { name: 'Social Media Character Counter', desc: 'Check text against character limits for Twitter, Instagram, YouTube, and more.', href: '/social-media-counter', icon: '📊' },
 ];
 
 const features = [
