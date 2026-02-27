@@ -41,6 +41,16 @@ const tools = [
   { name: 'Video to GIF Converter', desc: 'Convert video clips to animated GIFs entirely in your browser.', href: '/video-to-gif', icon: '🎬' },
   { name: 'Credit Card Validator', desc: 'Validate credit card numbers with the Luhn algorithm. Detect card type.', href: '/credit-card-validator', icon: '💳' },
   { name: 'Image Background Remover', desc: 'Remove solid-color backgrounds from images with color-key removal.', href: '/background-remover', icon: '🖼️' },
+  { name: 'Image Watermark', desc: 'Add text watermarks to images with custom position, opacity, and rotation.', href: '/image-watermark', icon: '💧' },
+  { name: 'PDF Compress', desc: 'Compress PDF files by removing metadata and optimizing structure.', href: '/pdf-compress', icon: '📄' },
+  { name: 'Flip & Rotate Image', desc: 'Flip and rotate images by any angle. Horizontal, vertical, and custom.', href: '/flip-rotate-image', icon: '🔃' },
+  { name: 'Hash Generator', desc: 'Generate MD5, SHA-1, SHA-256, SHA-384, SHA-512 hashes from text or files.', href: '/hash-generator', icon: '🔏' },
+  { name: 'Color Palette Generator', desc: 'Extract dominant colors from images or generate harmonious palettes.', href: '/color-palette-generator', icon: '🎨' },
+  { name: 'Diff Checker', desc: 'Compare two texts and highlight differences line by line.', href: '/diff-checker', icon: '📊' },
+  { name: 'Markdown Preview', desc: 'Write Markdown and see it rendered in real-time.', href: '/markdown-preview', icon: '📝' },
+  { name: 'Invoice Generator', desc: 'Create professional invoices and download as PDF. All client-side.', href: '/invoice-generator', icon: '🧾' },
+  { name: 'Pomodoro Timer', desc: 'Stay focused with the Pomodoro Technique. Customizable timer.', href: '/pomodoro-timer', icon: '🍅' },
+  { name: 'Random Number Generator', desc: 'Generate random numbers, roll dice, flip coins, and more.', href: '/random-number-generator', icon: '🎲' },
 ];
 
 const features = [
