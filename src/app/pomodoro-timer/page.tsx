@@ -14,6 +14,7 @@ const faqItems = [
 type Phase = 'work' | 'shortBreak' | 'longBreak';
 
 const STORAGE_KEY = 'pomodoro-stats';
+const SETTINGS_KEY = 'snaptools-pomodoro-settings';
 
 function getToday() { return new Date().toISOString().slice(0, 10); }
 
@@ -61,7 +62,25 @@ export default function PomodoroTimer() {
   const endTimeRef = useRef<number | null>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  useEffect(() => { setCompleted(loadStats()); }, []);
+  // Load settings from localStorage on mount
+  useEffect(() => {
+    setCompleted(loadStats());
+    try {
+      const saved = localStorage.getItem(SETTINGS_KEY);
+      if (saved) {
+        const data = JSON.parse(saved);
+        if (data.workMin) setWorkMin(data.workMin);
+        if (data.shortMin) setShortMin(data.shortMin);
+        if (data.longMin) setLongMin(data.longMin);
+        if (data.workMin) setTimeLeft(data.workMin * 60);
+      }
+    } catch { /* ignore */ }
+  }, []);
+
+  // Save settings to localStorage on change
+  useEffect(() => {
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify({ workMin, shortMin, longMin }));
+  }, [workMin, shortMin, longMin]);
 
   const totalSecs = phase === 'work' ? workMin * 60 : phase === 'shortBreak' ? shortMin * 60 : longMin * 60;
   const progress = totalSecs > 0 ? (totalSecs - timeLeft) / totalSecs : 0;

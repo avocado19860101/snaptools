@@ -1,5 +1,5 @@
 'use client';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import FAQ from '@/components/FAQ';
 import { ToolLayout, Card, Button, Slider, CopyButton } from '@/components/ui';
 
@@ -17,6 +17,26 @@ export default function PasswordGenerator() {
   const [numbers, setNumbers] = useState(true);
   const [symbols, setSymbols] = useState(true);
   const [password, setPassword] = useState('');
+
+  // Load settings from localStorage on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('snaptools-password-settings');
+      if (saved) {
+        const data = JSON.parse(saved);
+        if (data.length !== undefined) setLength(data.length);
+        if (data.upper !== undefined) setUpper(data.upper);
+        if (data.lower !== undefined) setLower(data.lower);
+        if (data.numbers !== undefined) setNumbers(data.numbers);
+        if (data.symbols !== undefined) setSymbols(data.symbols);
+      }
+    } catch { /* ignore */ }
+  }, []);
+
+  // Save settings on change
+  useEffect(() => {
+    localStorage.setItem('snaptools-password-settings', JSON.stringify({ length, upper, lower, numbers, symbols }));
+  }, [length, upper, lower, numbers, symbols]);
 
   const generate = useCallback(() => {
     let chars = '';

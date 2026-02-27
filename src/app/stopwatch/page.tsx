@@ -1,5 +1,5 @@
 'use client';
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import FAQ from '@/components/FAQ';
 import { ToolLayout, Card, Button, CopyButton } from '@/components/ui';
 
@@ -23,6 +23,24 @@ export default function Stopwatch() {
   const [elapsed, setElapsed] = useState(0);
   const [running, setRunning] = useState(false);
   const [laps, setLaps] = useState<number[]>([]);
+
+  // Load laps from localStorage on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('snaptools-stopwatch-laps');
+      if (saved) setLaps(JSON.parse(saved));
+    } catch { /* ignore */ }
+  }, []);
+
+  // Save laps to localStorage on change
+  useEffect(() => {
+    if (laps.length > 0) {
+      localStorage.setItem('snaptools-stopwatch-laps', JSON.stringify(laps));
+    } else {
+      localStorage.removeItem('snaptools-stopwatch-laps');
+    }
+  }, [laps]);
+
   const startRef = useRef(0);
   const baseRef = useRef(0);
   const rafRef = useRef<number>(0);

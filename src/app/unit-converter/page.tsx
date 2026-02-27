@@ -1,5 +1,5 @@
 'use client';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import FAQ from '@/components/FAQ';
 import { ToolLayout, Card, Input, Select, CopyButton } from '@/components/ui';
 
@@ -108,6 +108,27 @@ export default function UnitConverter() {
   const [fromUnit, setFromUnit] = useState('km');
   const [toUnit, setToUnit] = useState('mi');
   const [value, setValue] = useState('1');
+
+  // Load last used settings on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('snaptools-unit-converter-settings');
+      if (saved) {
+        const data = JSON.parse(saved);
+        if (data.category && categories[data.category]) {
+          setCategory(data.category);
+          const keys = Object.keys(categories[data.category].units);
+          if (data.fromUnit && keys.includes(data.fromUnit)) setFromUnit(data.fromUnit);
+          if (data.toUnit && keys.includes(data.toUnit)) setToUnit(data.toUnit);
+        }
+      }
+    } catch { /* ignore */ }
+  }, []);
+
+  // Save settings on change
+  useEffect(() => {
+    localStorage.setItem('snaptools-unit-converter-settings', JSON.stringify({ category, fromUnit, toUnit }));
+  }, [category, fromUnit, toUnit]);
 
   const cat = categories[category];
   const unitKeys = Object.keys(cat.units);

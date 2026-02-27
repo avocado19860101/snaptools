@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import FAQ from '@/components/FAQ';
 import { ToolLayout, Card, Button, Input, Select } from '@/components/ui';
 
@@ -30,6 +30,25 @@ export default function InvoiceGenerator() {
   const [discount, setDiscount] = useState(0);
   const [notes, setNotes] = useState('');
   const [preview, setPreview] = useState(false);
+
+  // Load saved defaults on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('snaptools-invoice-defaults');
+      if (saved) {
+        const data = JSON.parse(saved);
+        if (data.company) setCompany(data.company);
+        if (data.taxRate !== undefined) setTaxRate(data.taxRate);
+        if (data.currency) setCurrency(data.currency);
+        if (data.notes) setNotes(data.notes);
+      }
+    } catch { /* ignore */ }
+  }, []);
+
+  // Save reusable defaults on change
+  useEffect(() => {
+    localStorage.setItem('snaptools-invoice-defaults', JSON.stringify({ company, taxRate, currency, notes }));
+  }, [company, taxRate, currency, notes]);
 
   const sym = currencies[currency] || currency;
   const subtotal = items.reduce((s, it) => s + it.qty * it.price, 0);

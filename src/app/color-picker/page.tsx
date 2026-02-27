@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import FAQ from '@/components/FAQ';
 import { ToolLayout, Card, CopyButton } from '@/components/ui';
 
@@ -36,6 +36,29 @@ function rgbToHsl(r: number, g: number, b: number) {
 
 export default function ColorPicker() {
   const [hex, setHex] = useState('#3B82F6');
+  const [recentColors, setRecentColors] = useState<string[]>([]);
+
+  // Load recent colors on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('snaptools-color-recent');
+      if (saved) setRecentColors(JSON.parse(saved));
+    } catch { /* ignore */ }
+  }, []);
+
+  // Save color on change (debounced by only saving distinct colors)
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setRecentColors(prev => {
+        const filtered = prev.filter(c => c !== hex);
+        const updated = [hex, ...filtered].slice(0, 20);
+        localStorage.setItem('snaptools-color-recent', JSON.stringify(updated));
+        return updated;
+      });
+    }, 500);
+    return () => clearTimeout(timeout);
+  }, [hex]);
+
   const rgb = hexToRgb(hex);
   const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
 
@@ -86,6 +109,22 @@ export default function ColorPicker() {
             ))}
           </div>
         </div>
+
+        {/* Recent Colors */}
+        {recentColors.length > 1 && (
+          <div className="mt-6">
+            <p className="text-sm font-medium text-gray-700 mb-2">Recent Colors</p>
+            <div className="flex flex-wrap gap-2">
+              {recentColors.map((c, i) => (
+                <button key={i} onClick={() => setHex(c)}
+                  className="w-8 h-8 rounded-lg border border-white/40 shadow-sm hover:scale-110 transition-transform cursor-pointer"
+                  style={{ backgroundColor: c }}
+                  title={c}
+                />
+              ))}
+            </div>
+          </div>
+        )}
       </Card>
     </ToolLayout>
   );

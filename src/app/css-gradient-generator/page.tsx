@@ -1,7 +1,13 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import FAQ from '@/components/FAQ';
 import { ToolLayout, Card, Button, Select, CopyButton } from '@/components/ui';
+
+interface RecentGradient {
+  colors: string[];
+  direction: string;
+  css: string;
+}
 
 const DIRECTIONS = [
   { value: 'to right', label: 'To Right →' },
@@ -36,6 +42,25 @@ const faqItems = [
 export default function CSSGradientGenerator() {
   const [colors, setColors] = useState(['#667eea', '#764ba2']);
   const [direction, setDirection] = useState('to right');
+  const [recentGradients, setRecentGradients] = useState<RecentGradient[]>([]);
+
+  // Load recent gradients on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('snaptools-gradient-recent');
+      if (saved) setRecentGradients(JSON.parse(saved));
+    } catch { /* ignore */ }
+  }, []);
+
+  const saveCurrentGradient = () => {
+    const current: RecentGradient = { colors: [...colors], direction, css: cssValue };
+    setRecentGradients(prev => {
+      const filtered = prev.filter(g => g.css !== current.css);
+      const updated = [current, ...filtered].slice(0, 10);
+      localStorage.setItem('snaptools-gradient-recent', JSON.stringify(updated));
+      return updated;
+    });
+  };
 
   const cssValue = direction === 'radial'
     ? `radial-gradient(circle, ${colors.join(', ')})`
@@ -127,10 +152,29 @@ export default function CSSGradientGenerator() {
         <div className="glass rounded-xl p-4">
           <div className="flex justify-between items-center mb-2">
             <p className="text-sm font-medium text-gray-700">CSS Code</p>
-            <CopyButton text={cssCode} />
+            <div className="flex gap-2">
+              <Button variant="ghost" size="sm" onClick={saveCurrentGradient}>💾 Save</Button>
+              <CopyButton text={cssCode} />
+            </div>
           </div>
           <pre className="text-sm font-mono text-gray-800 bg-white/30 rounded-lg p-3 overflow-x-auto">{cssCode}</pre>
         </div>
+
+        {/* Recent Gradients */}
+        {recentGradients.length > 0 && (
+          <div className="mt-6">
+            <p className="text-sm font-medium text-gray-700 mb-2">Recent Gradients</p>
+            <div className="flex flex-wrap gap-2">
+              {recentGradients.map((g, i) => (
+                <button key={i} onClick={() => { setColors([...g.colors]); setDirection(g.direction); }}
+                  className="w-16 h-16 rounded-xl border border-white/30 shadow-sm hover:scale-105 transition-transform cursor-pointer"
+                  style={{ background: g.css }}
+                  title={g.css}
+                />
+              ))}
+            </div>
+          </div>
+        )}
       </Card>
     </ToolLayout>
   );

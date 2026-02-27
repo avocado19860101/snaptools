@@ -1,5 +1,5 @@
 'use client';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import FAQ from '@/components/FAQ';
 import { ToolLayout, Card, Input, CopyButton } from '@/components/ui';
 
@@ -25,6 +25,25 @@ export default function RegexTester() {
   const [pattern, setPattern] = useState('');
   const [flags, setFlags] = useState('g');
   const [testStr, setTestStr] = useState('');
+  const [recentPatterns, setRecentPatterns] = useState<{pattern: string; flags: string}[]>([]);
+
+  // Load recent patterns on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('snaptools-regex-recent');
+      if (saved) setRecentPatterns(JSON.parse(saved));
+    } catch { /* ignore */ }
+  }, []);
+
+  const saveCurrentPattern = () => {
+    if (!pattern) return;
+    setRecentPatterns(prev => {
+      const filtered = prev.filter(p => p.pattern !== pattern || p.flags !== flags);
+      const updated = [{ pattern, flags }, ...filtered].slice(0, 10);
+      localStorage.setItem('snaptools-regex-recent', JSON.stringify(updated));
+      return updated;
+    });
+  };
 
   const toggleFlag = (f: string) => {
     setFlags(prev => prev.includes(f) ? prev.replace(f, '') : prev + f);
@@ -84,8 +103,11 @@ export default function RegexTester() {
       <Card padding="lg">
         <h2 className="text-xl font-semibold text-gray-900 mb-5">Regex Tester</h2>
         <div className="space-y-4">
-          <div>
-            <Input label="Regular Expression" value={pattern} onChange={e => setPattern(e.target.value)} placeholder="Enter regex pattern..." />
+          <div className="flex gap-2 items-end">
+            <div className="flex-1">
+              <Input label="Regular Expression" value={pattern} onChange={e => setPattern(e.target.value)} placeholder="Enter regex pattern..." />
+            </div>
+            <button onClick={saveCurrentPattern} className="px-3 py-2 glass rounded-lg text-sm text-gray-600 hover:bg-white/50 transition-colors mb-0.5" title="Save pattern">💾</button>
           </div>
           <div className="flex gap-2 flex-wrap">
             {flagList.map(f => (
@@ -101,6 +123,19 @@ export default function RegexTester() {
               >{p.label}</button>
             ))}
           </div>
+          {recentPatterns.length > 0 && (
+            <div>
+              <p className="text-sm font-medium text-gray-700 mb-1">Recent Patterns</p>
+              <div className="flex gap-2 flex-wrap">
+                {recentPatterns.map((p, i) => (
+                  <button key={i} onClick={() => { setPattern(p.pattern); setFlags(p.flags); }}
+                    className="px-3 py-1 glass rounded-lg text-xs font-mono text-gray-600 hover:bg-white/50 transition-colors max-w-[200px] truncate"
+                    title={`/${p.pattern}/${p.flags}`}
+                  >/{p.pattern.length > 20 ? p.pattern.slice(0, 20) + '…' : p.pattern}/{p.flags}</button>
+                ))}
+              </div>
+            </div>
+          )}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Test String</label>
             <textarea
